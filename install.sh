@@ -2,7 +2,7 @@
 
 # Must be root
 if [ "$EUID" -ne 0 ]; then
-    echo "This installer must be run as root."
+    echo "This installer must be run as rootsudo ./install.sh
     exit 1
 fi
 
