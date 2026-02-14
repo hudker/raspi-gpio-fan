@@ -1,2 +1,2 @@
 #!/bin/bash
-python3 /bin/gpio-fan-setup
+python3 /bin/fan_setup.py
