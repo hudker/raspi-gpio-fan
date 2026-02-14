@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import curses
 import re
+import os
+import sys
 
 CONFIG_PATH = "/boot/firmware/config.txt"
 FAN_REGEX = re.compile(r"^\s*dtoverlay=gpio-fan.*$", re.MULTILINE)
@@ -23,7 +25,16 @@ def update_overlay(pin, temp):
 
 def main(stdscr):
     curses.curs_set(1)
+    curses.echo()   # <-- FIX #1: show typed characters
     stdscr.clear()
+
+    # Root check
+    if os.geteuid() != 0:
+        stdscr.addstr(2, 2, "ERROR: This command must be run as root.")
+        stdscr.addstr(4, 2, "Press any key to exit.")
+        stdscr.refresh()
+        stdscr.getch()
+        return
 
     stdscr.addstr(1, 2, "GPIO Fan Setup (Replace-or-Insert Mode)")
     stdscr.addstr(3, 2, "Enter GPIO pin: ")
